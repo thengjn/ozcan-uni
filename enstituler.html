@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enstitüler - Atatürk Üniversitesi</title>
+    <style>
+        /* Ana stiller */
+        :root {
+            --primary: #1a3a6d;
+            --secondary: #c8102e;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header ve Navigation stilleri */
+        header {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        nav {
+            background-color: #0f2952;
+        }
+
+        .main-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-menu li {
+            position: relative;
+        }
+
+        .main-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .main-menu li a:hover {
+            background-color: var(--secondary);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown li a {
+            color: var(--dark);
+            padding: 12px 20px;
+        }
+
+        .dropdown li a:hover {
+            background-color: var(--gray);
+            color: var(--primary);
+        }
+
+        .main-menu li:hover .dropdown {
+            display: block;
+        }
+
+        /* Sayfa içerik stilleri */
+        .page-content {
+            padding: 50px 0;
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-title:after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Enstitüler stilleri */
+        .institutes-container {
+            margin-top: 50px;
+        }
+
+        .institute-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .institute-tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .institute-tab.active {
+            color: var(--primary);
+        }
+
+        .tab-indicator {
+            position: absolute;
+            bottom: -1px;
+            height: 3px;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .institute-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .institute-content.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .institute-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .institute-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .institute-header {
+            padding: 20px;
+            background-color: var(--primary);
+            color: white;
+            position: relative;
+        }
+
+        .institute-header::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            transform: rotate(45deg);
+        }
+
+        .institute-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .institute-type {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .institute-body {
+            padding: 25px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .institute-info {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .institute-meta {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .institute-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .institute-link:hover {
+            background-color: var(--secondary);
+        }
+
+        /* 3D animasyon */
+        .institute-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+
+        /* Footer stilleri */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .bottom-footer {
+            background-color: #222;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            .institute-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .institute-content.active {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-links">
+                    <a href="panel.html">Sisteme Giriş</a>
+                </div>
+                <div class="language-selector">
+                    <a href="#">TR</a> |
+                    <a href="#">EN</a>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="logo">
+                    <div class="logo-image">
+                        <img src="assets/logo/logo.png" alt="Özcan Üniversitesi Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="logo-text">Özcan Üniversitesi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="main-menu">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li>
+                    <a href="universite.html">Üniversitemiz</a>
+                    <ul class="dropdown">
+                        <li><a href="universite.html">Tarihçe</a></li>
+                        <li><a href="universite.html">Misyon ve Vizyon</a></li>
+                        <li><a href="universite.html">Yönetim</a></li>
+                        <li><a href="universite.html">Kampüs Haritası</a></li>
+                    </ul>
+                </li>
+                <li><a href="akademik.html">Akademik</a></li>
+                <li><a href="arastirma.html">Araştırma</a></li>
+                <li><a href="ogrenci.html">Öğrenci</a></li>
+                <li><a href="uluslararasi.html">Uluslararası</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sayfa İçeriği -->
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title">Enstitüler</h1>
+            
+            <div class="institutes-container">
+                <div class="institute-tabs" id="instituteTabs">
+                    <div class="institute-tab active" data-tab="all">Tüm Enstitüler</div>
+                    <div class="institute-tab" data-tab="fen">Fen Bilimleri</div>
+                    <div class="institute-tab" data-tab="sosyal">Sosyal Bilimler</div>
+                    <div class="institute-tab" data-tab="saglik">Sağlık Bilimleri</div>
+                    <div class="tab-indicator"></div>
+                </div>
+                
+                <div class="institute-content active" id="tab-all">
+                    <!-- Dinamik olarak doldurulacak -->
+                </div>
+                
+                <div class="institute-content" id="tab-fen">
+                    <!-- Dinamik olarak doldurulacak -->
+                </div>
+                
+                <div class="institute-content" id="tab-sosyal">
+                    <!-- Dinamik olarak doldurulacak -->
+                </div>
+                
+                <div class="institute-content" id="tab-saglik">
+                    <!-- Dinamik olarak doldurulacak -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Özcan Üniversitesi</h3>
+                    <p>1957 yılında kurulan Özcan Üniversitesi, Türkiye'nin öncü yükseköğretim kurumlarından biridir. Bilimsel araştırma, eğitim ve topluma hizmet misyonuyla ülkemizin ve bölgemizin gelişimine katkıda bulunmaktayız.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="akademik.html">Akademik</a></li>
+                        <li><a href="ogrenci.html">Öğrenci</a></li>
+                        <li><a href="arastirma.html">Araştırma</a></li>
+                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hizmetler</h4>
+                    <ul>
+                        <li><a href="hizmetler/kutuphane.html">Kütüphane</a></li>
+                        <li><a href="hizmetler/saglik-merkezi.html">Sağlık Merkezi</a></li>
+                        <li><a href="hizmetler/yurtlar.html">Yurtlar</a></li>
+                        <li><a href="hizmetler/spor-tesisleri.html">Spor Tesisleri</a></li>
+                        <li><a href="hizmetler/ulasim.html">Ulaşım</a></li>
+                        <li><a href="hizmetler/yemekhaneler.html">Yemekhaneler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>İletişim</h4>
+                    <p>Adres: Özcan Üniversitesi, 34070 Eyüp/Istanbul</p>
+                    <p>Telefon: +90 442 231 1111</p>
+                    <p>Faks: +90 442 231 1222</p>
+                    <p>E-posta: info@ozcanuni.edu.tr</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <p>&copy; 2025 Özcan Üniversitesi. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enstitüler verileri
+            const enstituler = [
+                {
+                    id: 1,
+                    ad: "Fen Bilimleri Enstitüsü",
+                    tip: "Fen Bilimleri",
+                    aciklama: "Fen ve mühendislik alanlarında lisansüstü eğitim programları sunan enstitümüz, bilimsel araştırma ve geliştirme çalışmalarına liderlik etmektedir.",
+                    programSayisi: 35,
+                    ogrenciSayisi: 1250,
+                    kurulusYili: 1963,
+                    kategori: "fen"
+                },
+                {
+                    id: 2,
+                    ad: "Sosyal Bilimler Enstitüsü",
+                    tip: "Sosyal Bilimler",
+                    aciklama: "Sosyal ve beşeri bilimler alanında lisansüstü eğitim sunan enstitümüz, toplumsal ve kültürel çalışmalara odaklanmaktadır.",
+                    programSayisi: 42,
+                    ogrenciSayisi: 1680,
+                    kurulusYili: 1965,
+                    kategori: "sosyal"
+                },
+                {
+                    id: 3,
+                    ad: "Sağlık Bilimleri Enstitüsü",
+                    tip: "Sağlık Bilimleri",
+                    aciklama: "Sağlık alanında lisansüstü eğitim programları sunan enstitümüz, insan sağlığının geliştirilmesi ve korunması için bilimsel araştırmalar yapmaktadır.",
+                    programSayisi: 28,
+                    ogrenciSayisi: 960,
+                    kurulusYili: 1982,
+                    kategori: "saglik"
+                },
+                {
+                    id: 4,
+                    ad: "Eğitim Bilimleri Enstitüsü",
+                    tip: "Sosyal Bilimler",
+                    aciklama: "Eğitim alanında uzmanlaşmış lisansüstü programlar sunan enstitümüz, çağdaş eğitim yöntemleri ve uygulamaları üzerine çalışmalar yapmaktadır.",
+                    programSayisi: 18,
+                    ogrenciSayisi: 820,
+                    kurulusYili: 1990,
+                    kategori: "sosyal"
+                },
+                {
+                    id: 5,
+                    ad: "Türkiyat Araştırmaları Enstitüsü",
+                    tip: "Sosyal Bilimler",
+                    aciklama: "Türk kültürü, tarihi ve dili üzerine araştırmalar yapan enstitümüz, bu alanlarda özgün çalışmalar yürütmektedir.",
+                    programSayisi: 8,
+                    ogrenciSayisi: 320,
+                    kurulusYili: 1976,
+                    kategori: "sosyal"
+                },
+                {
+                    id: 6,
+                    ad: "Nanobilim ve Nanoteknoloji Enstitüsü",
+                    tip: "Fen Bilimleri",
+                    aciklama: "Nanoteknoloji alanında ileri düzey araştırmalar yapan enstitümüz, geleceğin teknolojilerine yön vermektedir.",
+                    programSayisi: 6,
+                    ogrenciSayisi: 180,
+                    kurulusYili: 2010,
+                    kategori: "fen"
+                },
+                {
+                    id: 7,
+                    ad: "Kök Hücre Enstitüsü",
+                    tip: "Sağlık Bilimleri",
+                    aciklama: "Kök hücre teknolojileri ve rejeneratif tıp alanında ileri düzey araştırmalar yapan enstitümüz, sağlık bilimlerine katkı sağlamaktadır.",
+                    programSayisi: 4,
+                    ogrenciSayisi: 90,
+                    kurulusYili: 2015,
+                    kategori: "saglik"
+                },
+                {
+                    id: 8,
+                    ad: "Güzel Sanatlar Enstitüsü",
+                    tip: "Sosyal Bilimler",
+                    aciklama: "Sanat ve tasarım alanlarında lisansüstü eğitim veren enstitümüz, sanatsal çalışmalara ve yaratıcılığa odaklanmaktadır.",
+                    programSayisi: 12,
+                    ogrenciSayisi: 450,
+                    kurulusYili: 1998,
+                    kategori: "sosyal"
+                },
+                {
+                    id: 9,
+                    ad: "Çevre ve İklim Araştırmaları Enstitüsü",
+                    tip: "Fen Bilimleri",
+                    aciklama: "Çevre sorunları ve iklim değişikliği üzerine çalışmalar yapan enstitümüz, sürdürülebilir çözümler geliştirmektedir.",
+                    programSayisi: 7,
+                    ogrenciSayisi: 210,
+                    kurulusYili: 2008,
+                    kategori: "fen"
+                }
+            ];
+            
+            // Tab değiştirme fonksiyonu
+            const tabsContainer = document.getElementById('instituteTabs');
+            const tabs = tabsContainer.querySelectorAll('.institute-tab');
+            const tabContents = document.querySelectorAll('.institute-content');
+            const tabIndicator = document.querySelector('.tab-indicator');
+            
+            function changeTab(e) {
+                const tabId = e.target.getAttribute('data-tab');
+                
+                // Aktif tab'i değiştir
+                tabs.forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Tab indicator'u ayarla
+                tabIndicator.style.width = `${e.target.offsetWidth}px`;
+                tabIndicator.style.left = `${e.target.offsetLeft}px`;
+                
+                // İçeriği değiştir
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `tab-${tabId}`) {
+                        content.classList.add('active');
+                    }
+                });
+            }
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', changeTab);
+            });
+            
+            // İlk tab göstergesini ayarla
+            const activeTab = document.querySelector('.institute-tab.active');
+            tabIndicator.style.width = `${activeTab.offsetWidth}px`;
+            tabIndicator.style.left = `${activeTab.offsetLeft}px`;
+            
+            // Enstitüleri görüntüle
+            function createInstituteCard(enstitu) {
+                const card = document.createElement('div');
+                card.className = 'institute-card';
+                card.innerHTML = `
+                    <div class="institute-header">
+                        <h3 class="institute-title">${enstitu.ad}</h3>
+                        <div class="institute-type">${enstitu.tip}</div>
+                    </div>
+                    <div class="institute-body">
+                        <p class="institute-info">${enstitu.aciklama}</p>
+                        <div class="institute-meta">
+                            <span>${enstitu.programSayisi} Program</span>
+                            <span>${enstitu.ogrenciSayisi} Öğrenci</span>
+                            <span>Kuruluş: ${enstitu.kurulusYili}</span>
+                        </div>
+                        <a href="#" class="institute-link">Detayları Gör</a>
+                    </div>
+                `;
+                return card;
+            }
+            
+            function displayEnstitutes() {
+                // Tüm enstitüler
+                const allTab = document.getElementById('tab-all');
+                allTab.innerHTML = '';
+                enstituler.forEach(enstitu => {
+                    allTab.appendChild(createInstituteCard(enstitu));
+                });
+                
+                // Fen bilimleri enstitüleri
+                const fenTab = document.getElementById('tab-fen');
+                fenTab.innerHTML = '';
+                enstituler.filter(e => e.kategori === 'fen').forEach(enstitu => {
+                    fenTab.appendChild(createInstituteCard(enstitu));
+                });
+                
+                // Sosyal bilimler enstitüleri
+                const sosyalTab = document.getElementById('tab-sosyal');
+                sosyalTab.innerHTML = '';
+                enstituler.filter(e => e.kategori === 'sosyal').forEach(enstitu => {
+                    sosyalTab.appendChild(createInstituteCard(enstitu));
+                });
+                
+                // Sağlık bilimleri enstitüleri
+                const saglikTab = document.getElementById('tab-saglik');
+                saglikTab.innerHTML = '';
+                enstituler.filter(e => e.kategori === 'saglik').forEach(enstitu => {
+                    saglikTab.appendChild(createInstituteCard(enstitu));
+                });
+            }
+            
+            // 3D kart efekti
+            function applyCardEffect() {
+                const cards = document.querySelectorAll('.institute-card');
+                
+                cards.forEach(card => {
+                    card.addEventListener('mousemove', function(e) {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const angleY = (x - centerX) / 20;
+                        const angleX = (centerY - y) / 20;
+                        
+                        card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.05, 1.05, 1.05)`;
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                    });
+                });
+            }
+            
+            // Enstitüleri yükle
+            displayEnstitutes();
+            
+            // 3D efektleri uygula
+            applyCardEffect();
+            
+            // Tab değişikliğinde 3D efektleri yeniden uygula
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    setTimeout(applyCardEffect, 100);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Özcan Üniversitesi</title>
+    <style>
+        /* Temel stiller */
+        :root {
+            --primary: #1a3a6d;
+            --secondary: #c8102e;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header ve Navigation stilleri */
+        header {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-bar-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .language-selector a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        nav {
+            background-color: #0f2952;
+        }
+
+        .main-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-menu li {
+            position: relative;
+        }
+
+        .main-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .main-menu li a:hover {
+            background-color: var(--secondary);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown li a {
+            color: var(--dark);
+            padding: 12px 20px;
+        }
+
+        .dropdown li a:hover {
+            background-color: var(--gray);
+            color: var(--primary);
+        }
+
+        .main-menu li:hover .dropdown {
+            display: block;
+        }
+
+        /* İletişim sayfası özel stilleri */
+        .page-title {
+            color: var(--primary);
+            font-size: 36px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: var(--secondary);
+        }
+
+        .contact-info {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-group {
+            margin-bottom: 25px;
+        }
+
+        .info-group h3 {
+            color: var(--primary);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .info-group p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .map-container {
+            margin-top: 50px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .map-container h2 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        /* Footer stilleri */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .bottom-footer {
+            background-color: #222;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-links">
+                    <a href="panel.html">Sisteme Giriş</a>
+                </div>
+                <div class="language-selector">
+                    <a href="#">TR</a> |
+                    <a href="#">EN</a>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="logo">
+                    <div class="logo-image">
+                        <img src="assets/logo/logo.png" alt="Özcan Üniversitesi Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="logo-text">Özcan Üniversitesi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="main-menu">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li>
+                    <a href="universite.html">Üniversitemiz</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Tarihçe</a></li>
+                        <li><a href="#">Misyon ve Vizyon</a></li>
+                        <li><a href="#">Yönetim</a></li>
+                        <li><a href="#">Kampüs Haritası</a></li>
+                    </ul>
+                </li>
+                <li><a href="akademik.html">Akademik</a></li>
+                <li><a href="arastirma.html">Araştırma</a></li>
+                <li><a href="ogrenci.html">Öğrenci</a></li>
+                <li><a href="uluslararasi.html">Uluslararası</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sayfa İçeriği -->
+    <div class="container">
+        <h1 class="page-title">İletişim</h1>
+
+        <div class="contact-grid">
+            <!-- İletişim Formu -->
+            <div class="contact-form">
+                <h2>Bize Ulaşın</h2>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">Ad Soyad</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-posta</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Konu</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mesajınız</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Gönder</button>
+                </form>
+            </div>
+
+            <!-- İletişim Bilgileri -->
+            <div class="contact-info">
+                <div class="info-group">
+                    <h3>Adres</h3>
+                    <p>Özcan Üniversitesi</p>
+                    <p>34070 Eyüp/Istanbul</p>
+                </div>
+                <div class="info-group">
+                    <h3>Telefon</h3>
+                    <p>Santral: +90 442 231 1111</p>
+                    <p>Faks: +90 442 231 1222</p>
+                </div>
+                <div class="info-group">
+                    <h3>E-posta</h3>
+                    <p>info@ozcanuni.edu.tr</p>
+                </div>
+                <div class="info-group">
+                    <h3>Çalışma Saatleri</h3>
+                    <p>Pazartesi - Cuma: 08:00 - 17:00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Harita -->
+        <div class="map-container">
+            <h2>Kampüs Haritası</h2>
+            <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3121.123456789!2d41.123456!3d39.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQXRhdMO8cmsgw5xuaXZlcnNpdGVzaQ!5e0!3m2!1str!2str!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Özcan Üniversitesi</h3>
+                    <p>1957 yılında kurulan Özcan Üniversitesi, Türkiye'nin öncü yükseköğretim kurumlarından biridir. Bilimsel araştırma, eğitim ve topluma hizmet misyonuyla ülkemizin ve bölgemizin gelişimine katkıda bulunmaktayız.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="akademik.html">Akademik</a></li>
+                        <li><a href="ogrenci.html">Öğrenci</a></li>
+                        <li><a href="arastirma.html">Araştırma</a></li>
+                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hizmetler</h4>
+                    <ul>
+                        <li><a href="kutuphane.html">Kütüphane</a></li>
+                        <li><a href="saglik-merkezi.html">Sağlık Merkezi</a></li>
+                        <li><a href="yurtlar.html">Yurtlar</a></li>
+                        <li><a href="spor-tesisleri.html">Spor Tesisleri</a></li>
+                        <li><a href="ulasim.html">Ulaşım</a></li>
+                        <li><a href="yemekhaneler.html">Yemekhaneler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>İletişim</h4>
+                    <p>Adres: Özcan Üniversitesi, 34070 Eyüp/Istanbul</p>
+                    <p>Telefon: +90 442 231 1111</p>
+                    <p>Faks: +90 442 231 1222</p>
+                    <p>E-posta: info@ozcanuni.edu.tr</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <p>&copy; 2025 Özcan Üniversitesi. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

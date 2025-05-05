@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akademik Programlar - Özcan Üniversitesi</title>
+    <style>
+        /* Ana stiller */
+        :root {
+            --primary: #1a3a6d;
+            --secondary: #c8102e;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header ve Navigation stilleri */
+        header {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        nav {
+            background-color: #0f2952;
+        }
+
+        .main-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-menu li {
+            position: relative;
+        }
+
+        .main-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .main-menu li a:hover {
+            background-color: var(--secondary);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown li a {
+            color: var(--dark);
+            padding: 12px 20px;
+        }
+
+        .dropdown li a:hover {
+            background-color: var(--gray);
+            color: var(--primary);
+        }
+
+        .main-menu li:hover .dropdown {
+            display: block;
+        }
+
+        /* Sayfa içerik stilleri */
+        .page-content {
+            padding: 50px 0;
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-title:after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Akademik Programlar stilleri */
+        .program-filters {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background-color: var(--gray);
+        }
+
+        .program-search {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-container {
+            display: flex;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: var(--secondary);
+        }
+
+        .programs-container {
+            margin-top: 40px;
+        }
+
+        .program-category {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .program-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .program-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .program-card.hidden {
+            display: none;
+        }
+
+        .program-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            position: relative;
+        }
+
+        .program-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .program-faculty {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .program-content {
+            padding: 20px;
+        }
+
+        .program-info {
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 120px;
+            color: var(--primary);
+        }
+
+        .program-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .program-link {
+            flex: 1;
+            display: inline-block;
+            padding: 8px 0;
+            text-align: center;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .program-link:hover {
+            background-color: var(--secondary);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+            display: none;
+        }
+
+        /* Footer stilleri */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .bottom-footer {
+            background-color: #222;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .program-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .program-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-links">
+                    <a href="panel.html">Sisteme Giriş</a>
+                </div>
+                <div class="language-selector">
+                    <a href="#">TR</a> |
+                    <a href="#">EN</a>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="logo">
+                    <div class="logo-image">
+                        <img src="assets/logo/logo.png" alt="Özcan Üniversitesi Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="logo-text">Özcan Üniversitesi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="main-menu">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li>
+                    <a href="universite.html">Üniversitemiz</a>
+                    <ul class="dropdown">
+                        <li><a href="universite.html">Tarihçe</a></li>
+                        <li><a href="universite.html">Misyon ve Vizyon</a></li>
+                        <li><a href="universite.html">Yönetim</a></li>
+                        <li><a href="universite.html">Kampüs Haritası</a></li>
+                    </ul>
+                </li>
+                <li><a href="akademik.html">Akademik</a></li>
+                <li><a href="arastirma.html">Araştırma</a></li>
+                <li><a href="ogrenci.html">Öğrenci</a></li>
+                <li><a href="uluslararasi.html">Uluslararası</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sayfa İçeriği -->
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title">Akademik Programlar</h1>
+            
+            <div class="program-filters">
+                <button class="filter-btn active" data-filter="all">Tüm Programlar</button>
+                <button class="filter-btn" data-filter="lisans">Lisans</button>
+                <button class="filter-btn" data-filter="yuksek-lisans">Yüksek Lisans</button>
+                <button class="filter-btn" data-filter="doktora">Doktora</button>
+                <button class="filter-btn" data-filter="onlisans">Önlisans</button>
+            </div>
+            
+            <div class="program-search">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Program ara..." id="searchInput">
+                    <button class="search-button" id="searchButton">Ara</button>
+                </div>
+            </div>
+            
+            <div class="programs-container" id="programsContainer">
+                <!-- Programlar kategorilere göre dinamik olarak eklenecek -->
+            </div>
+            
+            <div class="no-results" id="noResults">
+                <p>Arama kriterlerinize uygun program bulunamadı.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Özcan Üniversitesi</h3>
+                    <p>1957 yılında kurulan Özcan Üniversitesi, Türkiye'nin öncü yükseköğretim kurumlarından biridir. Bilimsel araştırma, eğitim ve topluma hizmet misyonuyla ülkemizin ve bölgemizin gelişimine katkıda bulunmaktayız.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="akademik.html">Akademik</a></li>
+                        <li><a href="ogrenci.html">Öğrenci</a></li>
+                        <li><a href="arastirma.html">Araştırma</a></li>
+                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hizmetler</h4>
+                    <ul>
+                        <li><a href="hizmetler/kutuphane.html">Kütüphane</a></li>
+                        <li><a href="hizmetler/saglik-merkezi.html">Sağlık Merkezi</a></li>
+                        <li><a href="hizmetler/yurtlar.html">Yurtlar</a></li>
+                        <li><a href="hizmetler/spor-tesisleri.html">Spor Tesisleri</a></li>
+                        <li><a href="hizmetler/ulasim.html">Ulaşım</a></li>
+                        <li><a href="hizmetler/yemekhaneler.html">Yemekhaneler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>İletişim</h4>
+                    <p>Adres: Özcan Üniversitesi, 34070 Eyüp/Istanbul</p>
+                    <p>Telefon: +90 442 231 1111</p>
+                    <p>Faks: +90 442 231 1222</p>
+                    <p>E-posta: info@ozcanuni.edu.tr</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <p>&copy; 2025 Özcan Üniversitesi. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Akademik program verileri
+            const programs = [
+                // Lisans Programları
+                {
+                    id: 1,
+                    title: "Tıp",
+                    faculty: "Tıp Fakültesi",
+                    type: "lisans",
+                    duration: "6 yıl",
+                    language: "Türkçe",
+                    quota: 180,
+                    description: "İnsan sağlığının korunması ve hastalıkların teşhis ve tedavisi konularında eğitim veren program"
+                },
+                {
+                    id: 2,
+                    title: "Bilgisayar Mühendisliği",
+                    faculty: "Mühendislik Fakültesi",
+                    type: "lisans",
+                    duration: "4 yıl",
+                    language: "Türkçe",
+                    quota: 120,
+                    description: "Bilgisayar sistemleri, yazılım geliştirme ve bilişim teknolojileri alanında eğitim veren program"
+                },
+                {
+                    id: 3,
+                    title: "İşletme",
+                    faculty: "İktisadi ve İdari Bilimler Fakültesi",
+                    type: "lisans",
+                    duration: "4 yıl",
+                    language: "Türkçe",
+                    quota: 150,
+                    description: "İşletme yönetimi, pazarlama, finansman ve organizasyon alanlarında eğitim veren program"
+                },
+                {
+                    id: 4,
+                    title: "Türk Dili ve Edebiyatı",
+                    faculty: "Edebiyat Fakültesi",
+                    type: "lisans",
+                    duration: "4 yıl",
+                    language: "Türkçe",
+                    quota: 80,
+                    description: "Türk dili, edebiyatı ve kültürü alanlarında eğitim veren program"
+                },
+                {
+                    id: 5,
+                    title: "Mimarlık",
+                    faculty: "Mimarlık ve Tasarım Fakültesi",
+                    type: "lisans",
+                    duration: "4 yıl",
+                    language: "Türkçe",
+                    quota: 90,
+                    description: "Mimari tasarım, yapı teknolojisi ve kentsel planlama alanlarında eğitim veren program"
+                },
+                
+                // Yüksek Lisans Programları
+                {
+                    id: 6,
+                    title: "İşletme Yönetimi",
+                    faculty: "Sosyal Bilimler Enstitüsü",
+                    type: "yuksek-lisans",
+                    duration: "2 yıl",
+                    language: "Türkçe",
+                    quota: 40,
+                    description: "İşletme yönetimi alanında ileri düzey eğitim veren yüksek lisans programı"
+                },
+                {
+                    id: 7,
+                    title: "Makine Mühendisliği",
+                    faculty: "Fen Bilimleri Enstitüsü",
+                    type: "yuksek-lisans",
+                    duration: "2 yıl",
+                    language: "Türkçe",
+                    quota: 30,
+                    description: "Makine mühendisliği alanında ileri düzey eğitim veren yüksek lisans programı"
+                },
+                {
+                    id: 8,
+                    title: "Klinik Psikoloji",
+                    faculty: "Sağlık Bilimleri Enstitüsü",
+                    type: "yuksek-lisans",
+                    duration: "2 yıl",
+                    language: "Türkçe",
+                    quota: 25,
+                    description: "Klinik psikoloji alanında uzmanlaşma sağlayan yüksek lisans programı"
+                },
+                
+                // Doktora Programları
+                {
+                    id: 9,
+                    title: "Moleküler Biyoloji ve Genetik",
+                    faculty: "Fen Bilimleri Enstitüsü",
+                    type: "doktora",
+                    duration: "4 yıl",
+                    language: "Türkçe",
+                    quota: 15,
+                    description: "Moleküler biyoloji ve genetik alanında ileri düzey araştırma ve eğitim veren doktora programı"
+                },
+                {
+                    id: 10,
+                    title: "Türk Tarihi",
+                    faculty: "Sosyal Bilimler Enstitüsü",
+                    type: "doktora",
+                    duration: "4 yıl",
+                    language: "Türkçe",
+                    quota: 10,
+                    description: "Türk tarihi alanında akademik araştırma ve eğitim veren doktora programı"
+                },
+                
+                // Önlisans Programları
+                {
+                    id: 11,
+                    title: "Tıbbi Laboratuvar Teknikleri",
+                    faculty: "Sağlık Hizmetleri Meslek Yüksekokulu",
+                    type: "onlisans",
+                    duration: "2 yıl",
+                    language: "Türkçe",
+                    quota: 60,
+                    description: "Tıbbi laboratuvar teknikleri alanında eğitim veren önlisans programı"
+                },
+                {
+                    id: 12,
+                    title: "Bilgisayar Programcılığı",
+                    faculty: "Teknik Bilimler Meslek Yüksekokulu",
+                    type: "onlisans",
+                    duration: "2 yıl",
+                    language: "Türkçe",
+                    quota: 70,
+                    description: "Bilgisayar programcılığı alanında eğitim veren önlisans programı"
+                }
+            ];
+            
+            const programsContainer = document.getElementById('programsContainer');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const noResults = document.getElementById('noResults');
+            
+            // Program kartlarını oluştur
+            function createProgramCard(program) {
+                return `
+                    <div class="program-card" data-type="${program.type}">
+                        <div class="program-header">
+                            <h3 class="program-title">${program.title}</h3>
+                            <div class="program-faculty">${program.faculty}</div>
+                        </div>
+                        <div class="program-content">
+                            <div class="program-info">
+                                <div class="info-item">
+                                    <div class="info-label">Süre:</div>
+                                    <div class="info-value">${program.duration}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Eğitim Dili:</div>
+                                    <div class="info-value">${program.language}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Kontenjan:</div>
+                                    <div class="info-value">${program.quota} öğrenci</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Açıklama:</div>
+                                    <div class="info-value">${program.description}</div>
+                                </div>
+                            </div>
+                            <div class="program-actions">
+                                <a href="#" class="program-link">Detaylı Bilgi</a>
+                                <a href="#" class="program-link">Başvuru</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Program kategorilerini oluştur
+            function createProgramCategories(filteredPrograms) {
+                const categoryData = {
+                    'lisans': {
+                        title: 'Lisans Programları',
+                        programs: []
+                    },
+                    'yuksek-lisans': {
+                        title: 'Yüksek Lisans Programları',
+                        programs: []
+                    },
+                    'doktora': {
+                        title: 'Doktora Programları',
+                        programs: []
+                    },
+                    'onlisans': {
+                        title: 'Önlisans Programları',
+                        programs: []
+                    }
+                };
+                
+                // Her programı ilgili kategoriye ekle
+                filteredPrograms.forEach(program => {
+                    if (categoryData[program.type]) {
+                        categoryData[program.type].programs.push(program);
+                    }
+                });
+                
+                let htmlContent = '';
+                
+                // Her kategori için bölüm oluştur
+                Object.keys(categoryData).forEach(key => {
+                    const category = categoryData[key];
+                    if (category.programs.length > 0) {
+                        let categoryHtml = `
+                            <div class="program-category">
+                                <h2 class="category-title">${category.title}</h2>
+                                <div class="program-list">
+                        `;
+                        
+                        category.programs.forEach(program => {
+                            categoryHtml += createProgramCard(program);
+                        });
+                        
+                        categoryHtml += `
+                                </div>
+                            </div>
+                        `;
+                        
+                        htmlContent += categoryHtml;
+                    }
+                });
+                
+                return htmlContent;
+            }
+            
+            // Programları göster
+            function displayPrograms(filteredPrograms) {
+                if (filteredPrograms.length === 0) {
+                    programsContainer.innerHTML = '';
+                    noResults.style.display = 'block';
+                    return;
+                }
+                
+                noResults.style.display = 'none';
+                
+                // Aktif filtre tüm programlar mı?
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                
+                if (activeFilter === 'all') {
+                    // Kategorilere göre programları göster
+                    programsContainer.innerHTML = createProgramCategories(filteredPrograms);
+                } else {
+                    // Sadece seçili kategoriyi göster
+                    const categoryTitle = {
+                        'lisans': 'Lisans Programları',
+                        'yuksek-lisans': 'Yüksek Lisans Programları',
+                        'doktora': 'Doktora Programları',
+                        'onlisans': 'Önlisans Programları'
+                    }[activeFilter];
+                    
+                    let htmlContent = `
+                        <div class="program-category">
+                            <h2 class="category-title">${categoryTitle}</h2>
+                            <div class="program-list">
+                    `;
+                    
+                    filteredPrograms.forEach(program => {
+                        htmlContent += createProgramCard(program);
+                    });
+                    
+                    htmlContent += `
+                            </div>
+                        </div>
+                    `;
+                    
+                    programsContainer.innerHTML = htmlContent;
+                }
+                
+                // Animasyonlu gösterim için
+                animateProgramCards();
+            }
+            
+            // Animasyon efekti
+            function animateProgramCards() {
+                const cards = document.querySelectorAll('.program-card');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                });
+            }
+            
+            // Programları filtrele
+            function filterPrograms() {
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                let filteredPrograms;
+                
+                if (activeFilter === 'all') {
+                    filteredPrograms = programs;
+                } else {
+                    filteredPrograms = programs.filter(program => program.type === activeFilter);
+                }
+                
+                // Arama filtrelemesi
+                if (searchTerm.trim() !== '') {
+                    filteredPrograms = filteredPrograms.filter(program => 
+                        program.title.toLowerCase().includes(searchTerm) || 
+                        program.faculty.toLowerCase().includes(searchTerm) || 
+                        program.description.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                displayPrograms(filteredPrograms);
+            }
+            
+            // Event listeners
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    filterPrograms();
+                });
+            });
+            
+            searchButton.addEventListener('click', filterPrograms);
+            
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    filterPrograms();
+                }
+            });
+            
+            // İlk yükleme
+            displayPrograms(programs);
+        });
+    </script>
+</body>
+</html> 

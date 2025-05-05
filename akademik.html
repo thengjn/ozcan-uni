@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akademik - Özcan Üniversitesi</title>
+    <style>
+        /* index.html'den tüm CSS stilleri buraya kopyalandı */
+        :root {
+            --primary: #1a3a6d;
+            --secondary: #c8102e;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header ve Navigation stilleri aynı */
+        header {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        nav {
+            background-color: #0f2952;
+        }
+
+        .main-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-menu li {
+            position: relative;
+        }
+
+        .main-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .main-menu li a:hover {
+            background-color: var(--secondary);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown li a {
+            color: var(--dark);
+            padding: 12px 20px;
+        }
+
+        .dropdown li a:hover {
+            background-color: var(--gray);
+            color: var(--primary);
+        }
+
+        .main-menu li:hover .dropdown {
+            display: block;
+        }
+
+        /* Sayfa başlık stilleri */
+        .page-content {
+            padding: 50px 0;
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-title:after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Akademik kart stilleri */
+        .academic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .academic-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .academic-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .academic-image {
+            height: 180px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .academic-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 100%);
+            z-index: 1;
+        }
+
+        .academic-image::after {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg) translateX(-100%);
+            transition: all 0.6s;
+        }
+
+        .academic-card:hover .academic-image::after {
+            transform: rotate(45deg) translateX(100%);
+        }
+
+        .academic-content {
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .academic-title {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .academic-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .academic-card:hover .academic-title::after {
+            width: 100%;
+        }
+
+        .academic-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .academic-link {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .academic-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: var(--secondary);
+            transition: all 0.3s;
+            z-index: -1;
+        }
+
+        .academic-link:hover::before {
+            width: 100%;
+        }
+
+        .academic-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(200, 16, 46, 0.3);
+        }
+
+        /* Footer stilleri */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .bottom-footer {
+            background-color: #222;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* Animasyonlar */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive tasarım */
+        @media (max-width: 992px) {
+            .academic-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .academic-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-links">
+                    <a href="panel.html">Sisteme Giriş</a>
+                </div>
+                <div class="language-selector">
+                    <a href="#">TR</a> |
+                    <a href="#">EN</a>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="logo">
+                    <div class="logo-image">
+                        <img src="assets/logo/logo.png" alt="Özcan Üniversitesi Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="logo-text">Özcan Üniversitesi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="main-menu">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li>
+                    <a href="universite.html">Üniversitemiz</a>
+                    <ul class="dropdown">
+                        <li><a href="universite.html">Tarihçe</a></li>
+                        <li><a href="universite.html">Misyon ve Vizyon</a></li>
+                        <li><a href="universite.html">Yönetim</a></li>
+                        <li><a href="universite.html">Kampüs Haritası</a></li>
+                    </ul>
+                </li>
+                <li><a href="akademik.html">Akademik</a></li>
+                <li><a href="arastirma.html">Araştırma</a></li>
+                <li><a href="ogrenci.html">Öğrenci</a></li>
+                <li><a href="uluslararasi.html">Uluslararası</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sayfa İçeriği -->
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title">Akademik Birimler</h1>
+            
+            <div class="academic-grid" id="academicGrid">
+                <div class="academic-card">
+                    <div class="academic-image">🎓</div>
+                    <div class="academic-content">
+                        <h3 class="academic-title">Fakülteler</h3>
+                        <p class="academic-description">Üniversitemizin çeşitli alanlarda eğitim veren fakülteleri hakkında detaylı bilgi alın.</p>
+                        <a href="fakulteler.html" class="academic-link">Detaylar</a>
+                    </div>
+                </div>
+
+                <div class="academic-card">
+                    <div class="academic-image">📚</div>
+                    <div class="academic-content">
+                        <h3 class="academic-title">Enstitüler</h3>
+                        <p class="academic-description">Lisansüstü eğitim programlarımız ve araştırma faaliyetlerimiz hakkında bilgi edinin.</p>
+                        <a href="enstituler.html" class="academic-link">Detaylar</a>
+                    </div>
+                </div>
+
+                <div class="academic-card">
+                    <div class="academic-image">🏫</div>
+                    <div class="academic-content">
+                        <h3 class="academic-title">Yüksekokullar</h3>
+                        <p class="academic-description">Meslek yüksekokullarımız ve uygulama alanlarımız hakkında bilgi alın.</p>
+                        <a href="yuksekokullar.html" class="academic-link">Detaylar</a>
+                    </div>
+                </div>
+
+                <div class="academic-card">
+                    <div class="academic-image">🔬</div>
+                    <div class="academic-content">
+                        <h3 class="academic-title">Araştırma Merkezleri</h3>
+                        <p class="academic-description">Üniversitemizin araştırma merkezleri ve faaliyetleri hakkında bilgi edinin.</p>
+                        <a href="arastirma-merkezleri.html" class="academic-link">Detaylar</a>
+                    </div>
+                </div>
+
+                <div class="academic-card">
+                    <div class="academic-image">📖</div>
+                    <div class="academic-content">
+                        <h3 class="academic-title">Akademik Programlar</h3>
+                        <p class="academic-description">Lisans ve lisansüstü programlarımız hakkında detaylı bilgi alın.</p>
+                        <a href="akademik-programlar.html" class="academic-link">Detaylar</a>
+                    </div>
+                </div>
+
+                <div class="academic-card">
+                    <div class="academic-image">🌍</div>
+                    <div class="academic-content">
+                        <h3 class="academic-title">Uluslararası Programlar</h3>
+                        <p class="academic-description">Erasmus+ ve diğer uluslararası değişim programları hakkında bilgi edinin.</p>
+                        <a href="uluslararasi-programlar.html" class="academic-link">Detaylar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Özcan Üniversitesi</h3>
+                    <p>1957 yılında kurulan Özcan Üniversitesi, Türkiye'nin öncü yükseköğretim kurumlarından biridir. Bilimsel araştırma, eğitim ve topluma hizmet misyonuyla ülkemizin ve bölgemizin gelişimine katkıda bulunmaktayız.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="akademik.html">Akademik</a></li>
+                        <li><a href="ogrenci.html">Öğrenci</a></li>
+                        <li><a href="arastirma.html">Araştırma</a></li>
+                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hizmetler</h4>
+                    <ul>
+                        <li><a href="hizmetler/kutuphane.html">Kütüphane</a></li>
+                        <li><a href="hizmetler/saglik-merkezi.html">Sağlık Merkezi</a></li>
+                        <li><a href="hizmetler/yurtlar.html">Yurtlar</a></li>
+                        <li><a href="hizmetler/spor-tesisleri.html">Spor Tesisleri</a></li>
+                        <li><a href="hizmetler/ulasim.html">Ulaşım</a></li>
+                        <li><a href="hizmetler/yemekhaneler.html">Yemekhaneler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>İletişim</h4>
+                    <p>Adres: Özcan Üniversitesi, 34070 Eyüp/Istanbul</p>
+                    <p>Telefon: +90 442 231 1111</p>
+                    <p>Faks: +90 442 231 1222</p>
+                    <p>E-posta: info@ozcanuni.edu.tr</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <p>&copy; 2025 Özcan Üniversitesi. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kartların animasyonu
+            const cards = document.querySelectorAll('.academic-card');
+            
+            // Her bir karta animasyon gecikmesi ekle
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('animate-in');
+            });
+
+            // 3D animasyon efekti
+            document.addEventListener('mousemove', function(e) {
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    
+                    // Fare kartın üzerindeyse
+                    if (e.clientX >= rect.left && e.clientX <= rect.right && 
+                        e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                        
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        // Fare pozisyonuna göre kart eğimi hesapla
+                        const angleX = (y - centerY) / 15;
+                        const angleY = (centerX - x) / 15;
+                        
+                        card.style.transform = `translateY(-10px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+                    } else {
+                        card.style.transform = '';
+                    }
+                });
+            });
+            
+            // Fare karttan çıktığında varsayılan pozisyona dön
+            document.addEventListener('mouseleave', function() {
+                cards.forEach(card => {
+                    card.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

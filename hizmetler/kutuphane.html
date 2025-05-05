@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üniversite Kütüphanesi</title>
+    <style>
+        :root {
+            --primary: #1a3a6d;
+            --secondary: #c8102e;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-bar-links a:hover {
+            text-decoration: underline;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #0f2952;
+        }
+
+        .main-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-menu li {
+            position: relative;
+        }
+
+        .main-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .main-menu li a:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Library specific styles */
+        .library-info {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .working-hours {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .resource-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0 0;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-about h3 {
+            margin-bottom: 15px;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 15px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-contact h4 {
+            margin-bottom: 15px;
+        }
+
+        .bottom-footer {
+            background-color: #0f2952;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-links">
+                    <a href="../panel.html">Sisteme Giriş</a>
+                </div>
+                <div class="language-selector">
+                    <a href="#">TR</a>
+                    <a href="#">EN</a>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="logo">
+                    <div class="logo-text">Özcan Üniversitesi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="main-menu">
+                <li><a href="../index.html">Ana Sayfa</a></li>
+                <li><a href="../akademik.html">Akademik</a></li>
+                <li><a href="../arastirma.html">Araştırma</a></li>
+                <li><a href="#">Öğrenci</a></li>
+                <li><a href="#">Kampüs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="library-info">
+                <h2>Kütüphane Hakkında</h2>
+                <p>Üniversitemiz kütüphanesi, modern ve geniş koleksiyonu ile öğrencilerimize hizmet vermektedir. 2.500.000'den fazla basılı kaynak, elektronik veritabanları ve multimedya materyalleri ile akademik çalışmalarınıza destek olmaktayız.</p>
+            </div>
+
+            <div class="working-hours">
+                <h2>Çalışma Saatleri</h2>
+                <div id="workingHours"></div>
+            </div>
+
+            <div class="resources">
+                <div class="resource-card">
+                    <h3>E-Kaynaklar</h3>
+                    <p>Online veritabanları ve e-kitaplara erişim sağlayın.</p>
+                </div>
+                <div class="resource-card">
+                    <h3>Çalışma Alanları</h3>
+                    <p>Bireysel ve grup çalışma odaları rezervasyonu yapın.</p>
+                </div>
+                <div class="resource-card">
+                    <h3>Katalog Tarama</h3>
+                    <p>Kütüphane kataloğunda arama yapın.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Özcan Üniversitesi</h3>
+                    <p>1957 yılında kurulan Özcan Üniversitesi, Türkiye'nin öncü yükseköğretim kurumlarından biridir.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="#">Ana Sayfa</a></li>
+                        <li><a href="#">Akademik</a></li>
+                        <li><a href="#">Öğrenci</a></li>
+                        <li><a href="#">Araştırma</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hizmetler</h4>
+                    <ul>
+                        <li><a href="kutuphane.html">Kütüphane</a></li>
+                        <li><a href="saglik-merkezi.html">Sağlık Merkezi</a></li>
+                        <li><a href="yurtlar.html">Yurtlar</a></li>
+                        <li><a href="spor-tesisleri.html">Spor Tesisleri</a></li>
+                        <li><a href="ulasim.html">Ulaşım</a></li>
+                        <li><a href="yemekhaneler.html">Yemekhaneler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>İletişim</h4>
+                    <p>Adres: Özcan Üniversitesi, 34070 Eyüp/Istanbul</p>
+                    <p>Telefon: +90 442 231 1111</p>
+                    <p>E-posta: info@ozcanuni.edu.tr</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <p>&copy; 2025 Özcan Üniversitesi. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Çalışma saatlerini dinamik olarak gösterme
+        const workingHours = {
+            'Pazartesi': '08:00 - 22:00',
+            'Salı': '08:00 - 22:00',
+            'Çarşamba': '08:00 - 22:00',
+            'Perşembe': '08:00 - 22:00',
+            'Cuma': '08:00 - 22:00',
+            'Cumartesi': '09:00 - 17:00',
+            'Pazar': '09:00 - 17:00'
+        };
+
+        const workingHoursDiv = document.getElementById('workingHours');
+        Object.entries(workingHours).forEach(([day, hours]) => {
+            const dayElement = document.createElement('p');
+            dayElement.innerHTML = `<strong>${day}:</strong> ${hours}`;
+            workingHoursDiv.appendChild(dayElement);
+        });
+
+        // Kaynak kartlarına tıklama efekti
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.backgroundColor = '#f0f0f0';
+                setTimeout(() => {
+                    card.style.backgroundColor = 'white';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html> 

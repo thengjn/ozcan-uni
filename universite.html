@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üniversitemiz - Özcan Üniversitesi</title>
+    <style>
+        /* index.html'den tüm CSS stilleri buraya kopyalandı */
+        :root {
+            --primary: #1a3a6d;
+            --secondary: #c8102e;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header stilleri */
+        header {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-bar-links a:hover {
+            text-decoration: underline;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        /* Navigation stilleri */
+        nav {
+            background-color: #0f2952;
+        }
+
+        .main-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-menu li {
+            position: relative;
+        }
+
+        .main-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .main-menu li a:hover {
+            background-color: var(--secondary);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown li a {
+            color: var(--dark);
+            padding: 12px 20px;
+        }
+
+        .dropdown li a:hover {
+            background-color: var(--gray);
+            color: var(--primary);
+        }
+
+        .main-menu li:hover .dropdown {
+            display: block;
+        }
+
+        /* Sayfa içeriği stilleri */
+        .page-content {
+            padding: 50px 0;
+        }
+
+        .page-title {
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .content-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .content-section h2 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .content-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Footer stilleri */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .footer-about p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--secondary);
+        }
+
+        .bottom-footer {
+            background-color: #222;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-links">
+                    <a href="panel.html">Sisteme Giriş</a>
+                </div>
+                <div class="language-selector">
+                    <a href="#">TR</a> |
+                    <a href="#">EN</a>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="logo">
+                    <div class="logo-image">
+                        <img src="assets/logo/logo.png" alt="Özcan Üniversitesi Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="logo-text">Özcan Üniversitesi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="main-menu">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li>
+                    <a href="universite.html">Üniversitemiz</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Tarihçe</a></li>
+                        <li><a href="#">Misyon ve Vizyon</a></li>
+                        <li><a href="#">Yönetim</a></li>
+                        <li><a href="#">Kampüs Haritası</a></li>
+                    </ul>
+                </li>
+                <li><a href="akademik.html">Akademik</a></li>
+                <li><a href="arastirma.html">Araştırma</a></li>
+                <li><a href="ogrenci.html">Öğrenci</a></li>
+                <li><a href="uluslararasi.html">Uluslararası</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sayfa İçeriği -->
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title">Üniversitemiz</h1>
+            
+            <div class="content-section">
+                <h2>Tarihçemiz</h2>
+                <p>Özcan Üniversitesi, 1957 yılında İstanbul'un Eyüp ilçesinde kurulmuş, genç ve dinamik bir yükseköğretim kurumudur. Kurulduğu günden bu yana bilim, teknoloji ve inovasyona öncülük etmeyi hedefleyen üniversitemiz, modern eğitim anlayışı ve güçlü akademik kadrosuyla geleceğin liderlerini yetiştirmektedir.</p>
+                <p>Üniversitemiz, kuruluşundan bu yana sürekli gelişim göstererek, ulusal ve uluslararası alanda saygın bir konuma ulaşmıştır. Akademik mükemmellik, araştırma ve geliştirme faaliyetleri, topluma hizmet misyonuyla çalışmalarını sürdürmektedir.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Misyon ve Vizyon</h2>
+                <h3>Misyonumuz</h3>
+                <p>Evrensel değerler ışığında bilgi, teknoloji ve hizmet üreterek insanlığın yararına sunmak, üstün nitelikli bireyler yetiştirmek ve toplumsal gelişime katkı sağlamaktır.</p>
+                
+                <h3>Vizyonumuz</h3>
+                <p>Bilimsel araştırma, eğitim-öğretim, sanat ve teknolojide uluslararası düzeyde öncü bir üniversite olmaktır.</p>
+                
+                <h3>Temel Değerlerimiz</h3>
+                <ul style="list-style-type: none; padding-left: 20px;">
+                    <li>✓ Bilimsel özgürlük ve etik değerlere bağlılık</li>
+                    <li>✓ Yenilikçilik ve sürdürülebilirlik</li>
+                    <li>✓ Şeffaflık ve hesap verebilirlik</li>
+                    <li>✓ Çevreye ve topluma duyarlılık</li>
+                    <li>✓ Katılımcılık ve işbirliği</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Yönetim</h2>
+                <div class="management-team">
+                    <div class="management-member">
+                        <h3>Rektör</h3>
+                        <p>Prof. Dr. Ahmet Özcan</p>
+                    </div>
+                    <div class="management-member">
+                        <h3>Rektör Yardımcıları</h3>
+                        <p>Prof. Dr. Ayşe Yılmaz</p>
+                        <p>Prof. Dr. Mehmet Demir</p>
+                    </div>
+                    <div class="management-member">
+                        <h3>Genel Sekreter</h3>
+                        <p>Dr. Ali Kaya</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Kampüs Haritası</h2>
+                <div class="campus-map">
+                    <p>Kampüsümüz, toplam 100 dönüm arazi üzerine kurulu modern bir yerleşkedir. Kampüs içerisinde:</p>
+                    <ul style="list-style-type: none; padding-left: 20px;">
+                        <li>📚 Merkez Kütüphane</li>
+                        <li>🏛️ Fakülte Binaları</li>
+                        <li>🏃 Spor Kompleksi</li>
+                        <li>🏥 Sağlık Merkezi</li>
+                        <li>🍽️ Merkezi Yemekhane</li>
+                        <li>🏡 Öğrenci Yurtları</li>
+                        <li>🚌 Ring Servisi Durakları</li>
+                    </ul>
+                    <p style="margin-top: 20px;">Detaylı kampüs haritası için <a href="#" style="color: var(--primary);">tıklayınız</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Özcan Üniversitesi</h3>
+                    <p>1957 yılında kurulan Özcan Üniversitesi, Türkiye'nin öncü yükseköğretim kurumlarından biridir. Bilimsel araştırma, eğitim ve topluma hizmet misyonuyla ülkemizin ve bölgemizin gelişimine katkıda bulunmaktayız.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="akademik.html">Akademik</a></li>
+                        <li><a href="ogrenci.html">Öğrenci</a></li>
+                        <li><a href="arastirma.html">Araştırma</a></li>
+                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hizmetler</h4>
+                    <ul>
+                        <li><a href="hizmetler/kutuphane.html">Kütüphane</a></li>
+                        <li><a href="hizmetler/saglik-merkezi.html">Sağlık Merkezi</a></li>
+                        <li><a href="hizmetler/yurtlar.html">Yurtlar</a></li>
+                        <li><a href="hizmetler/spor-tesisleri.html">Spor Tesisleri</a></li>
+                        <li><a href="hizmetler/ulasim.html">Ulaşım</a></li>
+                        <li><a href="hizmetler/yemekhaneler.html">Yemekhaneler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>İletişim</h4>
+                    <p>Adres: Özcan Üniversitesi, 34070 Eyüp/Istanbul</p>
+                    <p>Telefon: +90 442 231 1111</p>
+                    <p>Faks: +90 442 231 1222</p>
+                    <p>E-posta: info@ozcanuni.edu.tr</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <p>&copy; 2025 Özcan Üniversitesi. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fakülteler - Özcan Üniversitesi</title>
+    <style>
+        /* Ana stiller */
+        :root {
+            --primary: #1a3a6d;
+            --secondary: #c8102e;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header ve Navigation stilleri */
+        header {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        nav {
+            background-color: #0f2952;
+        }
+
+        .main-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-menu li {
+            position: relative;
+        }
+
+        .main-menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .main-menu li a:hover {
+            background-color: var(--secondary);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown li a {
+            color: var(--dark);
+            padding: 12px 20px;
+        }
+
+        .dropdown li a:hover {
+            background-color: var(--gray);
+            color: var(--primary);
+        }
+
+        .main-menu li:hover .dropdown {
+            display: block;
+        }
+
+        /* Sayfa içerik stilleri */
+        .page-content {
+            padding: 50px 0;
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-title:after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Fakülteler stilleri */
+        .fakulte-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .fakulte-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .fakulte-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .fakulte-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .fakulte-image:hover {
+            transform: scale(1.05);
+        }
+
+        .fakulte-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+            z-index: 1;
+        }
+
+        .fakulte-content {
+            padding: 25px;
+        }
+
+        .fakulte-name {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .fakulte-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .fakulte-info {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .fakulte-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .fakulte-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: #777;
+        }
+
+        .fakulte-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        .fakulte-link:hover {
+            background-color: var(--secondary);
+        }
+
+        .fakulte-search {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .search-input {
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 400px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Footer stilleri */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .bottom-footer {
+            background-color: #222;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .fakulte-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animasyon stilleri */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="top-bar-links">
+                    <a href="panel.html">Sisteme Giriş</a>
+                </div>
+                <div class="language-selector">
+                    <a href="#">TR</a> |
+                    <a href="#">EN</a>
+                </div>
+            </div>
+            <div class="main-header">
+                <div class="logo">
+                    <div class="logo-image">
+                        <img src="assets/logo/logo.png" alt="Özcan Üniversitesi Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="logo-text">Özcan Üniversitesi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="main-menu">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li>
+                    <a href="universite.html">Üniversitemiz</a>
+                    <ul class="dropdown">
+                        <li><a href="universite.html">Tarihçe</a></li>
+                        <li><a href="universite.html">Misyon ve Vizyon</a></li>
+                        <li><a href="universite.html">Yönetim</a></li>
+                        <li><a href="universite.html">Kampüs Haritası</a></li>
+                    </ul>
+                </li>
+                <li><a href="akademik.html">Akademik</a></li>
+                <li><a href="arastirma.html">Araştırma</a></li>
+                <li><a href="ogrenci.html">Öğrenci</a></li>
+                <li><a href="uluslararasi.html">Uluslararası</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sayfa İçeriği -->
+    <div class="page-content">
+        <div class="container">
+            <h1 class="page-title">Fakülteler</h1>
+            
+            <div class="fakulte-search">
+                <input type="text" class="search-input" placeholder="Fakülte Ara..." id="searchInput">
+                <button class="search-button" id="searchButton">Ara</button>
+            </div>
+            
+            <div class="fakulte-list" id="fakulteList">
+                <!-- Fakülteler dinamik olarak yüklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Özcan Üniversitesi</h3>
+                    <p>1957 yılında kurulan Özcan Üniversitesi, Türkiye'nin öncü yükseköğretim kurumlarından biridir. Bilimsel araştırma, eğitim ve topluma hizmet misyonuyla ülkemizin ve bölgemizin gelişimine katkıda bulunmaktayız.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Bağlantılar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="akademik.html">Akademik</a></li>
+                        <li><a href="ogrenci.html">Öğrenci</a></li>
+                        <li><a href="arastirma.html">Araştırma</a></li>
+                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hizmetler</h4>
+                    <ul>
+                        <li><a href="hizmetler/kutuphane.html">Kütüphane</a></li>
+                        <li><a href="hizmetler/saglik-merkezi.html">Sağlık Merkezi</a></li>
+                        <li><a href="hizmetler/yurtlar.html">Yurtlar</a></li>
+                        <li><a href="hizmetler/spor-tesisleri.html">Spor Tesisleri</a></li>
+                        <li><a href="hizmetler/ulasim.html">Ulaşım</a></li>
+                        <li><a href="hizmetler/yemekhaneler.html">Yemekhaneler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>İletişim</h4>
+                    <p>Adres: Özcan Üniversitesi, 34070 Eyüp/Istanbul</p>
+                    <p>Telefon: +90 442 231 1111</p>
+                    <p>Faks: +90 442 231 1222</p>
+                    <p>E-posta: info@ozcanuni.edu.tr</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <p>&copy; 2025 Özcan Üniversitesi. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fakülteler verileri
+            const fakulteler = [
+                {
+                    id: 1,
+                    ad: "Tıp Fakültesi",
+                    aciklama: "Atatürk Üniversitesi Tıp Fakültesi, 1957 yılında kurulmuş olup tıp alanında kaliteli eğitim ve sağlık hizmeti sunmaktadır.",
+                    ogrenciSayisi: 2750,
+                    bolumSayisi: 18,
+                    akademisyenSayisi: 320,
+                    resim: "assets/img/fakulteler/medicine.jpg"
+                },
+                {
+                    id: 2,
+                    ad: "Mühendislik Fakültesi",
+                    aciklama: "Mühendislik alanında birçok bölüm ve program sunan fakültemiz, teknoloji ve inovasyonda öncü çalışmalar yapmaktadır.",
+                    ogrenciSayisi: 3200,
+                    bolumSayisi: 15,
+                    akademisyenSayisi: 250,
+                    resim: "assets/img/fakulteler/engineering.jpg"
+                },
+                {
+                    id: 3,
+                    ad: "Edebiyat Fakültesi",
+                    aciklama: "Sosyal ve beşeri bilimler alanında eğitim veren fakültemiz, birçok alanda uzman yetiştirmektedir.",
+                    ogrenciSayisi: 2800,
+                    bolumSayisi: 12,
+                    akademisyenSayisi: 180,
+                    resim: "assets/img/fakulteler/edebiyat.jpg"
+                },
+                {
+                    id: 4,
+                    ad: "İktisadi ve İdari Bilimler Fakültesi",
+                    aciklama: "Ekonomi, işletme ve yönetim alanlarında kapsamlı eğitim programları sunan fakültemiz, iş dünyasına nitelikli mezunlar kazandırmaktadır.",
+                    ogrenciSayisi: 3500,
+                    bolumSayisi: 10,
+                    akademisyenSayisi: 200,
+                    resim: "assets/img/fakulteler/finance.jpg"
+                },
+                {
+                    id: 5,
+                    ad: "Eğitim Fakültesi",
+                    aciklama: "Ülkemizin geleceği olan öğretmenleri yetiştiren fakültemiz, modern eğitim yöntemleri ve uygulamalarıyla öne çıkmaktadır.",
+                    ogrenciSayisi: 2900,
+                    bolumSayisi: 9,
+                    akademisyenSayisi: 170,
+                    resim: "assets/img/fakulteler/education.jpg"
+                },
+                {
+                    id: 6,
+                    ad: "Diş Hekimliği Fakültesi",
+                    aciklama: "Ağız ve diş sağlığı alanında uzmanlar yetiştiren fakültemiz, modern klinik ve laboratuvarlara sahiptir.",
+                    ogrenciSayisi: 1200,
+                    bolumSayisi: 8,
+                    akademisyenSayisi: 150,
+                    resim: "assets/img/fakulteler/dentistry.jpg"
+                },
+                {
+                    id: 7,
+                    ad: "Hukuk Fakültesi",
+                    aciklama: "Hukuk eğitiminde kaliteyi önceleyen fakültemiz, adalet ve hukukun üstünlüğü ilkeleriyle nitelikli hukukçular yetiştirmektedir.",
+                    ogrenciSayisi: 1800,
+                    bolumSayisi: 5,
+                    akademisyenSayisi: 130,
+                    resim: "assets/img/fakulteler/law.jpg"
+                },
+                {
+                    id: 8,
+                    ad: "Güzel Sanatlar Fakültesi",
+                    aciklama: "Sanat ve tasarım alanında yaratıcı bireylerin yetiştiği fakültemiz, estetik ve teknik bilgiyi harmanlayan eğitim programları sunmaktadır.",
+                    ogrenciSayisi: 1500,
+                    bolumSayisi: 10,
+                    akademisyenSayisi: 120,
+                    resim: "assets/img/fakulteler/arts.jpeg"
+                },
+                {
+                    id: 9,
+                    ad: "Ziraat Fakültesi",
+                    aciklama: "Tarım ve hayvancılık alanında modern yöntemler ve sürdürülebilir uygulamalar geliştiren fakültemiz, sektörün ihtiyaçlarına yönelik çalışmalar yapmaktadır.",
+                    ogrenciSayisi: 1700,
+                    bolumSayisi: 12,
+                    akademisyenSayisi: 140,
+                    resim: "assets/img/fakulteler/ziraat.jpg"
+                }
+            ];
+
+            const fakulteListElement = document.getElementById('fakulteList');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+
+            // Fakülteleri görüntüle
+            function displayFakulteler(fakultelerData) {
+                fakulteListElement.innerHTML = '';
+                
+                fakultelerData.forEach((fakulte, index) => {
+                    const fakulteCard = document.createElement('div');
+                    fakulteCard.className = 'fakulte-card animate-fade-in';
+                    fakulteCard.style.animationDelay = `${index * 0.1}s`;
+                    
+                    fakulteCard.innerHTML = `
+                        <div class="fakulte-image" style="background-image: url(${fakulte.resim})"></div>
+                        <div class="fakulte-content">
+                            <h3 class="fakulte-name">${fakulte.ad}</h3>
+                            <p class="fakulte-info">${fakulte.aciklama}</p>
+                            <div class="fakulte-stats">
+                                <div class="fakulte-stat">
+                                    <span class="stat-number">${fakulte.ogrenciSayisi}</span>
+                                    <span class="stat-label">Öğrenci</span>
+                                </div>
+                                <div class="fakulte-stat">
+                                    <span class="stat-number">${fakulte.bolumSayisi}</span>
+                                    <span class="stat-label">Bölüm</span>
+                                </div>
+                                <div class="fakulte-stat">
+                                    <span class="stat-number">${fakulte.akademisyenSayisi}</span>
+                                    <span class="stat-label">Akademisyen</span>
+                                </div>
+                            </div>
+                            <a href="#" class="fakulte-link">Detayları Gör</a>
+                        </div>
+                    `;
+                    
+                    fakulteListElement.appendChild(fakulteCard);
+                });
+            }
+
+            // Fakülteleri ara
+            function searchFakulteler() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const filteredFakulteler = fakulteler.filter(fakulte => 
+                    fakulte.ad.toLowerCase().includes(searchTerm) || 
+                    fakulte.aciklama.toLowerCase().includes(searchTerm)
+                );
+                
+                displayFakulteler(filteredFakulteler);
+            }
+
+            // Event listeners
+            searchButton.addEventListener('click', searchFakulteler);
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchFakulteler();
+                }
+            });
+
+            // Kart hover animasyonu
+            document.addEventListener('mousemove', function(e) {
+                const cards = document.querySelectorAll('.fakulte-card');
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const angleX = (y - centerY) / 20;
+                    const angleY = (centerX - x) / 20;
+                    
+                    if (rect.left <= e.clientX && e.clientX <= rect.right && 
+                        rect.top <= e.clientY && e.clientY <= rect.bottom) {
+                        card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-10px)`;
+                    } else {
+                        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+                    }
+                });
+            });
+
+            // Scroll animasyonu
+            function checkVisible() {
+                const elements = document.querySelectorAll('.animate-fade-in');
+                elements.forEach(element => {
+                    const position = element.getBoundingClientRect();
+                    if(position.top < window.innerHeight) {
+                        element.style.animationPlayState = 'running';
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', checkVisible);
+            
+            // İlk yükleme
+            displayFakulteler(fakulteler);
+            checkVisible();
+        });
+    </script>
+</body>
+</html> 
